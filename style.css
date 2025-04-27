@@ -1,0 +1,171 @@
+/* --- Global Styles & Resets --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif; /* Fallback font */
+    line-height: 1.6;
+    color: #333; /* Default text color */
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+     font-family: 'Lora', serif; /* Serif font for headings */
+     font-weight: 700; /* Bolder headings */
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    background-color: #0a2342; /* Dark blue background */
+    color: #f0f0f0; /* Light text color */
+    text-align: center;
+    padding: 100px 20px 120px; /* More top/bottom padding */
+    min-height: 55vh; /* Ensure it takes significant height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem; /* Large heading */
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: #ffffff; /* Brighter white for main heading */
+}
+
+.hero-section .subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 35px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #e87a24; /* Orange button */
+    color: #ffffff;
+    padding: 12px 35px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #d0681a; /* Darker orange on hover */
+}
+
+/* --- Services Section --- */
+.services-section {
+    background-color: #f5f0e6; /* Light beige background */
+    padding: 80px 20px;
+}
+
+.services-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #0a2342; /* Dark blue heading */
+    margin-bottom: 50px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 30px; /* Spacing between cards */
+}
+
+.service-card {
+    background-color: #fffcf7; /* Very light off-white cards */
+    padding: 30px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    transition: transform 0.2s ease-in-out;
+}
+
+.service-card:hover {
+     transform: translateY(-5px); /* Slight lift on hover */
+}
+
+.icon-container {
+    background-color: #e87a24; /* Orange background for icon */
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    margin: 0 auto 20px; /* Center horizontally, add bottom margin */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon {
+    font-size: 1.8rem; /* Adjust icon size */
+    color: #ffffff;
+    font-family: sans-serif; /* Use generic font for emoji/symbol */
+}
+
+.service-card h3 {
+    font-size: 1.3rem;
+    color: #1d3557; /* Darker blue for card titles */
+    margin-bottom: 10px;
+    font-family: 'Lora', serif;
+    font-weight: 700;
+}
+
+.service-card p {
+    font-size: 0.95rem;
+    color: #4a4a4a; /* Grey text for description */
+    line-height: 1.4;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    }
+     .hero-section h1 {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    .hero-section .subtitle {
+        font-size: 1rem;
+    }
+    .cta-button {
+        padding: 10px 30px;
+        font-size: 0.9rem;
+    }
+    .services-section h2 {
+        font-size: 2rem;
+    }
+    .services-grid {
+        grid-template-columns: 1fr; /* 1 column on small screens */
+    }
+    .service-card {
+        padding: 25px 15px;
+    }
+}
+
+@media (max-width: 400px) {
+     .hero-section h1 {
+        font-size: 2.2rem;
+    }
+}
