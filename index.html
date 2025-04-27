@@ -3,66 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HHC Home Loan Consultation Services</title>
+    <title>HHC - Best Home Loan Offers</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Using simple text icons for demonstration -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN (for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 <body>
 
-    <header class="hero-section">
-        <div class="container">
-            <!-- Added Logo -->
-            <img src="logo.png" alt="HHC Logo" class="logo-image">
-
-            <h1>Home Loan<br>Consultation<br>Services</h1>
-            <p class="subtitle">Get expert guidance and personalized solutions<br>for your home loan needs.</p>
-            <a href="#services" class="cta-button">Get Started</a>
+    <!-- Header Navigation -->
+    <header class="site-header">
+        <div class="container navbar">
+            <div class="logo">
+                <img src="logo.png" alt="HHC Logo"> <!-- Use the same logo.png -->
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle Menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <section class="services-section" id="services"> {/* Added id for button link */}
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="services-grid">
-
-                <div class="service-card">
-                    <div class="icon-container">
-                        <span class="icon">💬</span>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <h1>Get the Best Home Loan Offers – Fast, Easy & Free!</h1>
+                    <p>Compare top banks, check eligibility, and get expert guidance – all at no cost</p>
+                    <a href="#eligibility-form" class="btn btn-primary">Check Eligibility Now</a>
+                    <div class="hero-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>100% Free Consultation</strong><br>Hassle-Free Process</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-university"></i> <!-- Changed icon -->
+                            <span><strong>Trusted</strong><br>by Major Banks</span>
+                        </div>
                     </div>
-                    <h3>Free Consultation</h3>
-                    <p>Expert advice<br>at no cost</p>
                 </div>
 
-                <div class="service-card">
-                    <div class="icon-container">
-                         <span class="icon">📄</span>
-                    </div>
-                    <h3>Bank Offer Comparison</h3>
-                    <p>Compare rates<br>from top banks</p>
+                <div class="hero-form-container" id="eligibility-form">
+                    <form id="eligibilityForm" class="eligibility-form">
+                        <h3><i class="fas fa-rupee-sign"></i> Check Your Eligibility for Free!</h3>
+                        <div class="form-group">
+                            <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="city" name="city" placeholder="City" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="employmentType" name="employmentType" required>
+                                <option value="" disabled selected>Employment Type</option>
+                                <option value="Salaried">Salaried</option>
+                                <option value="Self-Employed">Self-Employed</option>
+                                <option value="Business Owner">Business Owner</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Get My Free Consultation</button>
+                    </form>
+                    <div id="formMessage" style="display: none; margin-top: 15px; text-align: center;"></div>
                 </div>
-
-                <div class="service-card">
-                     <div class="icon-container">
-                        <span class="icon">✓</span>
-                     </div>
-                    <h3>Eligibility Check</h3>
-                    <p>Pre-approval for<br>your loan</p>
-                </div>
-
-                <div class="service-card">
-                     <div class="icon-container">
-                        <span class="icon">⚖️</span>
-                     </div>
-                    <h3>Legal Assistance</h3>
-                    <p>Support with pro-<br>perty documentation</p>
-                </div>
-
             </div>
+        </section>
+
+        <!-- Our Services Section -->
+        <section class="services-section" id="services">
+            <div class="container">
+                <h2><i class="fas fa-check-square"></i> Our Services</h2>
+                <ul class="services-list">
+                    <li>Free Home Loan Consultation</li>
+                    <li>Bank Offer Comparison (SBI, HDFC, ICICI & more)</li>
+                    <li>Eligibility Check & Pre-approval</li>
+                    <li>End-to-End Documentation Support</li>
+                    <li>Quick Disbursal Process</li>
+                    <li>Loan Transfer Advice for Salaried & Self-Employed</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works-section">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3>1. Submit Your Details</h3>
+                        <p>Fill our quick form</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <i class="fas fa-headset"></i> <!-- Changed icon -->
+                        </div>
+                        <h3>2. Get Free Expert Call</h3>
+                        <p>We check your eligibility & recommend best options</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <i class="fas fa-balance-scale"></i> <!-- Changed icon -->
+                        </div>
+                        <h3>3. Compare Bank Offers</h3>
+                        <p>Transparent comparisons from top lenders</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon">
+                             <i class="fas fa-file-signature"></i> <!-- Changed icon -->
+                        </div>
+                        <h3>4. Easy Documentation</h3>
+                        <p>We help at every step</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section (Placeholder) -->
+        <section class="why-choose-us-section" id="contact"> <!-- Added ID for contact link -->
+             <div class="container">
+                <h2>Why Choose Us?</h2>
+                <!-- Add more content here if needed -->
+             </div>
+        </section>
+         <section class="why-choose-us-section">
+             <div class="container">
+                <h2>Why Choose Us?</h2>
+                 <!-- Add more content here if needed -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer-bottom">
+        <div class="container">
+             <p>© 2023 HHC. All Rights Reserved.</p> <!-- Example Footer -->
         </div>
-    </section>
+    </footer>
+
+    <script src="script.js"></script> <!-- Link JS for form handling -->
 
 </body>
 </html>
