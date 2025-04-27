@@ -92,7 +92,7 @@ img {
 }
 
 .logo img {
-    max-height: 1200px; /* Adjust logo height */
+    max-height: 120px; /* Increased logo height (300% of original 40px) */
 }
 
 .main-nav ul {
@@ -376,6 +376,10 @@ img {
     .services-list li {
         font-size: 1rem;
     }
+    /* Adjust logo size for smaller screens if 120px is too big */
+    .logo img {
+        max-height: 80px; /* Example smaller size for tablets */
+    }
 }
 
 @media (max-width: 480px) {
@@ -402,5 +406,9 @@ img {
         width: 60px;
         height: 60px;
         font-size: 1.5rem;
+    }
+     /* Further adjust logo size for mobile if needed */
+    .logo img {
+        max-height: 60px; /* Example smaller size for mobile */
     }
 }
