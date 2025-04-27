@@ -5,6 +5,10 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth; /* Smooth scroll for anchor links */
+}
+
 body {
     font-family: 'Open Sans', sans-serif; /* Fallback font */
     line-height: 1.6;
@@ -27,12 +31,22 @@ h1, h2, h3 {
     background-color: #0a2342; /* Dark blue background */
     color: #f0f0f0; /* Light text color */
     text-align: center;
-    padding: 100px 20px 120px; /* More top/bottom padding */
-    min-height: 55vh; /* Ensure it takes significant height */
+    /* Reduced padding (approx 25% less vertical padding) */
+    padding: 75px 20px 90px;
+    /* Reduced min-height (approx 25% less) */
+    min-height: 42vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+/* Added Logo Styles */
+.logo-image {
+    display: block; /* Allows margin auto to center */
+    max-width: 150px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0 auto 25px; /* Center horizontally, add bottom margin */
 }
 
 .hero-section h1 {
@@ -153,6 +167,10 @@ h1, h2, h3 {
         padding: 10px 30px;
         font-size: 0.9rem;
     }
+    .logo-image { /* Slightly smaller logo on mobile */
+        max-width: 120px;
+        margin-bottom: 20px;
+    }
     .services-section h2 {
         font-size: 2rem;
     }
@@ -167,5 +185,8 @@ h1, h2, h3 {
 @media (max-width: 400px) {
      .hero-section h1 {
         font-size: 2.2rem;
+    }
+     .logo-image {
+        max-width: 100px;
     }
 }
