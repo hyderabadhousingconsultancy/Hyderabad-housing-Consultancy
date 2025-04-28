@@ -7,7 +7,7 @@
 
 html {
     /* Add scroll-padding-top to account for sticky header height */
-    scroll-padding-top: 90px; /* Adjust this value based on your final header height */
+    scroll-padding-top: 95px; /* Adjusted for potentially ~80px logo + padding */
     scroll-behavior: smooth;
     font-size: 16px; /* Base font size */
 }
@@ -105,7 +105,8 @@ img {
 /* --- Header / Navigation --- */
 .site-header {
     background-color: #fff;
-    padding: 10px 0; /* Keep header padding lean */
+    /* Padding adjusted slightly for taller logo */
+    padding: 5px 0;
     border-bottom: 1px solid #eee;
     position: sticky;
     top: 0;
@@ -116,12 +117,12 @@ img {
 .navbar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; /* Keeps logo and nav centered vertically */
 }
 
 .logo img {
-    /* *** REDUCED LOGO HEIGHT *** */
-    max-height: 60px; /* Significantly reduced logo height */
+    /* *** INCREASED LOGO HEIGHT *** */
+    max-height: 80px; /* Larger logo */
 }
 
 .main-nav ul {
@@ -162,7 +163,6 @@ img {
 
 /* --- Hero Section --- */
 .hero-section {
-     /* Remove top padding here, rely on scroll-padding-top */
      padding: 60px 0;
 }
 
@@ -170,7 +170,6 @@ img {
     display: grid;
     grid-template-columns: 1.1fr 1fr; /* Adjust column ratio */
     gap: 50px;
-    /* *** CHANGED ALIGNMENT *** */
     align-items: start; /* Align items to the top */
 }
 
@@ -207,7 +206,6 @@ img {
 .feature-item i {
     font-size: 1.6rem; /* Slightly larger icons */
     color: #1e73be;
-    /* margin-top: 5px; Removed */
 }
 
 .feature-item span {
@@ -451,6 +449,9 @@ img {
 
 /* --- Responsive Design --- */
 @media (max-width: 992px) {
+    html {
+        scroll-padding-top: 90px; /* Adjust if header height differs on tablet */
+    }
     .hero-grid {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -497,6 +498,10 @@ img {
 }
 
 @media (max-width: 768px) {
+    html {
+        /* Adjust scroll padding based on actual header height on tablet */
+        scroll-padding-top: 85px;
+    }
     .main-nav {
         display: none; /* Hide nav links - Requires JS to toggle */
     }
@@ -507,21 +512,21 @@ img {
         position: relative;
     }
 
-     /* Keep logo size reasonable on tablet */
+     /* Adjust logo size for tablets */
     .logo img {
-        max-height: 55px; /* Adjust if still too big */
+        max-height: 70px;
     }
 
      .section-padding {
         padding: 60px 0;
     }
-    /* Adjust scroll padding for potentially shorter header */
-    html {
-        scroll-padding-top: 80px; /* Adjust based on tablet header height */
-    }
 }
 
 @media (max-width: 480px) {
+    html {
+         /* Adjust scroll padding based on actual header height on mobile */
+        scroll-padding-top: 80px;
+     }
     h1 { font-size: 1.8rem; }
     h2 { font-size: 1.5rem; }
     h3 { font-size: 1.1rem; }
@@ -535,13 +540,8 @@ img {
     .eligibility-form input,
     .eligibility-form select { padding: 12px 15px; font-size: 0.9rem; }
 
-    .logo img { max-height: 50px; } /* Keep logo small on mobile */
+    .logo img { max-height: 60px; } /* Adjust mobile logo size */
 
     .services-list li { font-size: 1rem; }
     .why-us-text li { font-size: 1rem; }
-
-     /* Adjust scroll padding for mobile header height */
-     html {
-        scroll-padding-top: 75px; /* Adjust based on mobile header height */
-    }
 }
