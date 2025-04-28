@@ -121,7 +121,6 @@ img {
 }
 
 .logo img {
-    /* *** INCREASED LOGO HEIGHT *** */
     max-height: 80px; /* Larger logo */
 }
 
@@ -287,7 +286,7 @@ img {
 }
 
  .section-image-container {
-    /* *** THIS CENTERS THE IMAGE *** */
+    /* Keep text-align for potential fallback or other elements */
     text-align: center;
     margin-bottom: 40px;
 }
@@ -297,8 +296,9 @@ img {
     width: 100%;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    /* Centering via parent's text-align is preferred */
-    /* display: inline-block; */
+    /* *** ADDED MARGIN AUTO FOR ROBUST CENTERING *** */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
@@ -307,6 +307,8 @@ img {
 .why-choose-us-section h2,
 .contact-section h2 {
     text-align: center;
+     /* Add space below H2, especially since subtitle removed */
+     margin-bottom: 1.2em;
 }
 .services-section h2 i {
     color: #1e73be;
@@ -535,7 +537,7 @@ img {
     h3 { font-size: 1.1rem; }
 
     .hero-content p { font-size: 1rem; }
-    .section-subtitle { font-size: 1rem; }
+    .section-subtitle { font-size: 1rem; } /* Keep subtitle rule for other sections */
 
     .btn { padding: 10px 20px; font-size: 0.9rem; }
 
