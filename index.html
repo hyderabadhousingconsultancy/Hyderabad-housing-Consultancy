@@ -54,10 +54,13 @@
 
                 <div class="hero-form-container" id="eligibility-form">
                     <form action="https://api.web3forms.com/submit" method="POST" class="eligibility-form">
-                        <!-- Hidden access_key field -->
+                        <!-- Hidden fields -->
                         <input type="hidden" name="access_key" value="0c1e3210-ad4c-46cc-986a-d863d0e556ab">
+                        <input type="hidden" name="redirect" value="thank-you.html">
+                        <input type="hidden" name="subject" value="New Home Loan Lead from HHC Website">
 
                         <h3><i class="fas fa-rupee-sign"></i> Check Your Eligibility for Free Now!</h3>
+
                         <div class="form-group">
                             <input type="text" id="fullName" name="name" placeholder="Full Name" required>
                         </div>
@@ -76,9 +79,6 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-
-                        <!-- Optional Redirect after submit -->
-                        <input type="hidden" name="redirect" value="https://yourwebsite.com/thank-you.html">
 
                         <button type="submit" class="btn btn-primary btn-full">Get My Free Consultation</button>
                     </form>
@@ -141,14 +141,9 @@
 
         <!-- Why Choose Us Section -->
         <section class="why-choose-us-section" id="contact">
-             <div class="container">
+            <div class="container">
                 <h2>Why Choose Us?</h2>
-             </div>
-        </section>
-
-        <section class="why-choose-us-section">
-             <div class="container">
-                <h2>Why Choose Us?</h2>
+                <!-- You can add more content here if you want -->
             </div>
         </section>
 
