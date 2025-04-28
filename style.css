@@ -279,11 +279,13 @@ img {
 }
 
  .section-image-container {
+    /* Rule still exists but won't apply to anything in Services */
     text-align: center;
     margin-bottom: 40px;
 }
 
 .section-image {
+    /* Rule still exists but won't apply to anything in Services */
     max-width: 600px;
     width: 100%;
     border-radius: 8px;
@@ -297,7 +299,7 @@ img {
 .why-choose-us-section h2,
 .contact-section h2 {
     text-align: center;
-    margin-bottom: 1.2em; /* Added space below H2 */
+    margin-bottom: 1.2em;
 }
 .services-section h2 i {
     color: #1e73be;
@@ -411,14 +413,9 @@ img {
 }
 
 .why-us-image img {
-    /* === EDIT THIS RULE FOR keys.jpg APPEARANCE === */
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    /* Add/modify properties here, e.g.: */
-    /* max-width: 90%; */
-    /* border: 3px solid #1e73be; */
-    /* margin-left: auto; */
-    /* margin-right: auto; */
+    /* Add specific edits for keys.jpg appearance here if needed */
 }
 
 /* --- Contact Section --- */
