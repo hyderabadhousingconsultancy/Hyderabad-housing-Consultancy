@@ -6,6 +6,8 @@
 }
 
 html {
+    /* Add scroll-padding-top to account for sticky header height */
+    scroll-padding-top: 90px; /* Adjust this value based on your final header height */
     scroll-behavior: smooth;
     font-size: 16px; /* Base font size */
 }
@@ -103,7 +105,7 @@ img {
 /* --- Header / Navigation --- */
 .site-header {
     background-color: #fff;
-    padding: 10px 0; /* Reduced padding */
+    padding: 10px 0; /* Keep header padding lean */
     border-bottom: 1px solid #eee;
     position: sticky;
     top: 0;
@@ -118,7 +120,8 @@ img {
 }
 
 .logo img {
-    max-height: 70px; /* Adjusted max-height - find what works best */
+    /* *** REDUCED LOGO HEIGHT *** */
+    max-height: 60px; /* Significantly reduced logo height */
 }
 
 .main-nav ul {
@@ -159,15 +162,16 @@ img {
 
 /* --- Hero Section --- */
 .hero-section {
-    padding: 60px 0;
-    background-color: #fff;
+     /* Remove top padding here, rely on scroll-padding-top */
+     padding: 60px 0;
 }
 
 .hero-grid {
     display: grid;
     grid-template-columns: 1.1fr 1fr; /* Adjust column ratio */
     gap: 50px;
-    align-items: center;
+    /* *** CHANGED ALIGNMENT *** */
+    align-items: start; /* Align items to the top */
 }
 
 .hero-image {
@@ -503,13 +507,17 @@ img {
         position: relative;
     }
 
-     /* Adjust logo size for smaller screens */
+     /* Keep logo size reasonable on tablet */
     .logo img {
-        max-height: 60px;
+        max-height: 55px; /* Adjust if still too big */
     }
 
      .section-padding {
         padding: 60px 0;
+    }
+    /* Adjust scroll padding for potentially shorter header */
+    html {
+        scroll-padding-top: 80px; /* Adjust based on tablet header height */
     }
 }
 
@@ -527,8 +535,13 @@ img {
     .eligibility-form input,
     .eligibility-form select { padding: 12px 15px; font-size: 0.9rem; }
 
-    .logo img { max-height: 50px; }
+    .logo img { max-height: 50px; } /* Keep logo small on mobile */
 
     .services-list li { font-size: 1rem; }
     .why-us-text li { font-size: 1rem; }
+
+     /* Adjust scroll padding for mobile header height */
+     html {
+        scroll-padding-top: 75px; /* Adjust based on mobile header height */
+    }
 }
