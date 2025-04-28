@@ -92,7 +92,7 @@ img {
 }
 
 .logo img {
-    max-height: 180px; /* Increased logo height (300% of original 40px) */
+    max-height: 130px; /* Increased logo height (300% of original 40px) */
 }
 
 .main-nav ul {
