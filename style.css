@@ -1,562 +1,485 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hyderabad Housing Consultancy</title>
+/* --- Global Styles & Resets --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
+html {
+    scroll-padding-top: 95px;
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
 
-  <!-- Font Awesome for icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-pIwIolQCavwzzO4SCjgf3pQkR4i4kCxIYnQkm6wtb1sWHZm0xYXhbQYWRB/zxcfLjo/0P6Yxl+GXj7V7xvJKLg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.7;
+    color: #333;
+    background-color: #fff;
+    overflow-x: hidden;
+}
 
-  <style>
-    /* ---------- Reset & Base Styles ---------- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
+h1, h2, h3 {
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 0.7em;
+     line-height: 1.3;
+}
+
+h1 { font-size: clamp(2.2rem, 5vw, 2.8rem); }
+h2 { font-size: clamp(1.8rem, 4vw, 2.2rem); margin-bottom: 0.8em;}
+h3 { font-size: clamp(1.2rem, 3vw, 1.4rem); }
+
+a {
+    text-decoration: none;
+    color: #1e73be;
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: #165a94;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- Utility Classes --- */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #1e73be;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #165a94;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.btn-full {
+    display: block;
+    width: 100%;
+}
+
+.section-padding {
+    padding: 80px 0;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    text-align: center;
+    max-width: 700px;
+    margin: -0.5em auto 2.5em auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* --- Header / Navigation --- */
+.site-header {
+    background-color: #fff;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    max-height: 80px;
+}
+
+.main-nav ul {
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav a {
+    color: #333;
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+}
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #1e73be;
+    transition: width 0.3s ease;
+}
+.main-nav a:hover::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #333;
+    cursor: pointer;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+     padding: 60px 0;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+.hero-image {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.hero-content h1 {
+    margin-bottom: 20px;
+    color: #1e73be;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 35px;
+}
+
+.hero-features {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    color: #444;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.feature-item i {
+    font-size: 1.6rem;
+    color: #1e73be;
+}
+
+.feature-item span {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* --- Hero Form --- */
+.hero-form-container {
+    background-color: #f8f9fa;
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.eligibility-form h3 {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+.eligibility-form h3 i {
+    margin-right: 10px;
+    color: #1e73be;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.eligibility-form input,
+.eligibility-form select {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fff;
+    color: #495057;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.eligibility-form input::placeholder {
+    color: #adb5bd;
+}
+
+.eligibility-form select {
+     appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+.eligibility-form select:required:invalid {
+    color: #adb5bd;
+}
+.eligibility-form option[value=""][disabled] {
+    display: none;
+}
+.eligibility-form option {
+    color: #495057;
+}
+
+.eligibility-form input:focus,
+.eligibility-form select:focus {
+     outline: none;
+    border-color: #1e73be;
+    box-shadow: 0 0 0 0.2rem rgba(30, 115, 190, 0.25);
+}
+
+/* --- Services Section --- */
+.services-section {
+     background-color: #f8f9fa;
+}
+
+ .section-image-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-image {
+    max-width: 600px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.services-section h2,
+.how-it-works-section h2,
+.why-choose-us-section h2,
+.contact-section h2 {
+    text-align: center;
+    margin-bottom: 1.2em;
+}
+.services-section h2 i {
+    color: #1e73be;
+    margin-right: 10px;
+}
+
+.services-list {
+    max-width: 750px;
+    margin: 0 auto;
+    padding-left: 0;
+    columns: 2;
+    column-gap: 40px;
+}
+
+.services-list li {
+    margin-bottom: 18px;
+    font-size: 1.05rem;
+    padding-left: 25px;
+    position: relative;
+    break-inside: avoid-column;
+}
+
+.services-list li::before {
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: #1e73be;
+    position: absolute;
+    left: 0;
+    top: 4px;
+    font-size: 1em;
+}
+
+/* --- How It Works Section --- */
+.how-it-works-section {
+     background-color: #fff;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 35px;
+    text-align: center;
+}
+
+.step-card {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+ .step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.step-card h3 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.step-card p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.step-icon {
+    width: 70px;
+    height: 70px;
+    background-color: #1e73be;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 8px rgba(30, 115, 190, 0.3);
+}
+
+/* --- Why Choose Us Section --- */
+.why-choose-us-section {
+     background-color: #f8f9fa;
+}
+
+.why-choose-us-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.why-us-text ul {
+    padding-left: 0;
+}
+.why-us-text li {
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+    padding-left: 30px;
+    position: relative;
+}
+ .why-us-text li i {
+    color: #1e73be;
+    position: absolute;
+    left: 0;
+    top: 6px;
+    font-size: 1.1em;
+}
+
+.why-us-image img {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* Add specific edits for keys.jpg appearance here if needed */
+}
+
+/* --- Contact Section --- */
+ .contact-section {
+    background-color: #fff;
+}
+.contact-section p {
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    color: #555;
+}
+ .contact-section p strong {
+    color: #333;
+}
+
+/* --- Footer --- */
+.site-footer-bottom {
+    background-color: #212529;
+    color: #adb5bd;
+    padding: 25px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 0;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
     html {
-      scroll-behavior: smooth;
+        scroll-padding-top: 90px;
     }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f5f5f5;
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
     }
+    .hero-content { order: 2; }
+    .hero-form-container { order: 1; margin: 0 auto; max-width: 550px; }
+    .hero-image { max-width: 500px; margin: 0 auto 30px auto; }
+    .hero-features { justify-content: center; gap: 25px; flex-wrap: wrap; }
+    .services-list { columns: 1; }
+    .why-choose-us-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+    .why-us-text ul { max-width: 500px; margin: 0 auto; text-align: left; }
+    .why-us-image { order: -1; max-width: 500px; margin: 0 auto; }
+}
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+@media (max-width: 768px) {
+    html { scroll-padding-top: 85px; }
+    .main-nav { display: none; }
+    .menu-toggle { display: block; }
+    .navbar { position: relative; }
+    .logo img { max-height: 70px; }
+    .section-padding { padding: 60px 0; }
+}
 
-    ul {
-      list-style: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    /* ---------- Utility Classes ---------- */
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .text-center {
-      text-align: center;
-    }
-
-    .btn {
-      display: inline-block;
-      background-color: #0066cc;
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.25s ease;
-    }
-
-    .btn:hover {
-      background-color: #005bb5;
-    }
-
-    .section {
-      padding: 4rem 0;
-    }
-
-    .section h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #0066cc;
-    }
-
-    /* ---------- Header & Nav ---------- */
-    header {
-      background-color: #fff;
-      position: sticky;
-      top: 0;
-      width: 100%;
-      z-index: 100;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 0;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #0066cc;
-    }
-
-    nav {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    nav a {
-      font-weight: 500;
-      transition: color 0.2s ease;
-    }
-
-    nav a:hover {
-      color: #004a99;
-    }
-
-    /* Mobile menu toggle (hidden by default) */
-    .menu-toggle {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* ---------- Hero Section ---------- */
-    .hero {
-      position: relative;
-      background: url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')
-        center/cover no-repeat;
-      color: #fff;
-      min-height: 75vh;
-      display: flex;
-      align-items: center;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-    }
-
-    .hero .container {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .hero-text {
-      flex: 1 1 500px;
-      padding: 1rem;
-    }
-
-    .hero-text h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
-    }
-
-    .hero-text p {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-form {
-      background-color: #fff;
-      color: #333;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      flex: 1 1 350px;
-      margin: 1rem;
-    }
-
-    .hero-form h3 {
-      margin-bottom: 1rem;
-      color: #0066cc;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .hero-form label {
-      display: block;
-      font-size: 0.9rem;
-      margin-bottom: 0.25rem;
-      font-weight: 500;
-    }
-
-    .hero-form select,
-    .hero-form input {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-
-    .hero-form .btn {
-      width: 100%;
-      text-align: center;
-    }
-
-    /* ---------- Services Section ---------- */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .service-item {
-      background-color: #fff;
-      border-radius: 8px;
-      padding: 1.5rem;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .service-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .service-item i {
-      font-size: 2rem;
-      color: #0066cc;
-      margin-bottom: 0.75rem;
-    }
-
-    .service-item h4 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-
-    /* ---------- How It Works Section ---------- */
-    .steps-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .step-card {
-      background-color: #fff;
-      border-left: 4px solid #0066cc;
-      padding: 1.25rem;
-      border-radius: 4px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .step-card h5 {
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: #0066cc;
-    }
-
-    .step-card p {
-      font-size: 0.95rem;
-    }
-
-    /* ---------- Why Us Section ---------- */
-    .features-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .feature-item {
-      background-color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .feature-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .feature-item i {
-      font-size: 2rem;
-      color: #0066cc;
-      margin-bottom: 0.75rem;
-    }
-
-    .feature-item h4 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-
-    /* ---------- Contact Section ---------- */
-    .contact-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-    }
-
-    .contact-item {
-      flex: 1 1 300px;
-      background-color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .contact-item i {
-      font-size: 2rem;
-      color: #0066cc;
-      margin-bottom: 0.5rem;
-    }
-
-    .contact-item h5 {
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: #0066cc;
-    }
-
-    .contact-item p {
-      font-size: 1rem;
-      line-height: 1.4;
-    }
-
-    /* ---------- Footer ---------- */
-    footer {
-      background-color: #333;
-      color: #ccc;
-      padding: 1.5rem 0;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-
-    /* ---------- Responsive Breakpoints ---------- */
-    @media (max-width: 768px) {
-      .nav-container {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      nav {
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-top: 0.5rem;
-      }
-
-      .hero .container {
-        flex-direction: column;
-      }
-
-      .hero-text,
-      .hero-form {
-        flex: 1 1 100%;
-      }
-
-      .contact-info {
-        flex-direction: column;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <!-- ========== Header / Navigation ========== -->
-  <header>
-    <div class="container nav-container">
-      <div class="logo"><a href="#">HHC</a></div>
-      <nav>
-        <a href="#services">Services</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#why-us">Why Us</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- ========== Hero Section ========== -->
-  <section class="hero" id="home">
-    <div class="hero-overlay"></div>
-    <div class="container hero-content">
-      <div class="hero-text">
-        <h1>Get the Best Home Loan Offers – Fast, Easy &amp; Free!</h1>
-        <p>
-          Compare top banks, check eligibility, and get expert guidance – all at
-          no cost. 100% Free Consultation · Hassle-Free Process · Trusted by Major Banks.
-        </p>
-        <a href="#contact" class="btn">Contact Us Now</a>
-      </div>
-      <div class="hero-form">
-        <h3>Check Your Eligibility for Free</h3>
-        <form>
-          <label for="employment">Employment Type</label>
-          <select id="employment" name="employment">
-            <option value="salaried">Salaried</option>
-            <option value="self-employed">Self-Employed</option>
-            <option value="business-owner">Business Owner</option>
-            <option value="other">Other</option>
-          </select>
-
-          <button type="submit" class="btn">Get My Free Consultation</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== Services Section ========== -->
-  <section class="section" id="services">
-    <div class="container">
-      <h2 class="text-center">Our Services</h2>
-      <div class="services-grid">
-        <div class="service-item">
-          <i class="fa-solid fa-comments-dollar"></i>
-          <h4>Free Home Loan Consultation &amp; Guidance</h4>
-          <p>Speak with our experts to find the best home loan options for your needs.</p>
-        </div>
-        <div class="service-item">
-          <i class="fa-solid fa-building-columns"></i>
-          <h4>Bank Offer Comparison</h4>
-          <p>Compare offers from SBI, HDFC, ICICI &amp; more in one place.</p>
-        </div>
-        <div class="service-item">
-          <i class="fa-solid fa-chart-line"></i>
-          <h4>Detailed Eligibility Check</h4>
-          <p>Quick pre-approval assistance based on your profile.</p>
-        </div>
-        <div class="service-item">
-          <i class="fa-solid fa-file-signature"></i>
-          <h4>Documentation Support</h4>
-          <p>Complete end-to-end assistance with paperwork &amp; processing.</p>
-        </div>
-        <div class="service-item">
-          <i class="fa-solid fa-clock"></i>
-          <h4>Streamlined Disbursal Process</h4>
-          <p>Fast-track your loan disbursal with minimal hassle.</p>
-        </div>
-        <div class="service-item">
-          <i class="fa-solid fa-hand-holding-dollar"></i>
-          <h4>Expert Loan Transfer Advice</h4>
-          <p>Get advice on transferring your loan to a better interest rate.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== How It Works Section ========== -->
-  <section class="section" id="how-it-works" style="background-color: #fff;">
-    <div class="container">
-      <h2 class="text-center">How It Works</h2>
-      <div class="steps-container">
-        <div class="step-card">
-          <h5>1. Submit Your Details</h5>
-          <p>Fill out our quick &amp; easy eligibility form so we can understand your needs.</p>
-        </div>
-        <div class="step-card">
-          <h5>2. Get Free Expert Call</h5>
-          <p>Our home loan specialist will review your profile &amp; suggest the best options.</p>
-        </div>
-        <div class="step-card">
-          <h5>3. Compare Bank Offers</h5>
-          <p>We present transparent comparisons from leading banks for you to choose.</p>
-        </div>
-        <div class="step-card">
-          <h5>4. Easy Documentation</h5>
-          <p>Once you pick an offer, we guide you through the paperwork hassle-free.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== Why Us Section ========== -->
-  <section class="section" id="why-us">
-    <div class="container">
-      <h2 class="text-center">Why Choose HHC?</h2>
-      <div class="features-list">
-        <div class="feature-item">
-          <i class="fa-solid fa-user-tie"></i>
-          <h4>Expert Guidance</h4>
-          <p>Navigate the complexities of home loans with our experienced advisors.</p>
-        </div>
-        <div class="feature-item">
-          <i class="fa-solid fa-hands-helping"></i>
-          <h4>Wide Bank Network</h4>
-          <p>Access offers from all major banks and NBFCs in one place.</p>
-        </div>
-        <div class="feature-item">
-          <i class="fa-solid fa-hourglass-half"></i>
-          <h4>Time-Saving Process</h4>
-          <p>We handle the comparisons and paperwork, saving you valuable time.</p>
-        </div>
-        <div class="feature-item">
-          <i class="fa-solid fa-coins"></i>
-          <h4>Transparent &amp; Free</h4>
-          <p>Our consultation and basic services are 100% free of charge.</p>
-        </div>
-        <div class="feature-item">
-          <i class="fa-solid fa-headset"></i>
-          <h4>Dedicated Support</h4>
-          <p>We're with you from application to disbursal and beyond.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== Contact Section ========== -->
-  <section class="section" id="contact" style="background-color: #fff;">
-    <div class="container">
-      <h2 class="text-center">Get in Touch</h2>
-      <p class="text-center" style="margin-bottom: 2rem;">
-        Ready to start your home ownership journey? Contact us today for a free consultation!
-      </p>
-      <div class="contact-info">
-        <div class="contact-item">
-          <i class="fa-solid fa-envelope"></i>
-          <h5>Email Us</h5>
-          <p>hyderabadhousingconsultancy@gmail.com</p>
-        </div>
-        <div class="contact-item">
-          <i class="fa-solid fa-phone"></i>
-          <h5>Call Us</h5>
-          <p>+91-7207249102</p>
-        </div>
-        <div class="contact-item">
-          <i class="fa-solid fa-map-marker-alt"></i>
-          <h5>Visit Us</h5>
-          <p>123 Main Street, Hyderabad, India</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== Footer ========== -->
-  <footer>
-    <div class="container">
-      <p>© 2023 HHC Home Loan Consulting. All Rights Reserved.</p>
-    </div>
-  </footer>
-</body>
-</html>  can you show me the output here once
+@media (max-width: 480px) {
+    html { scroll-padding-top: 80px; }
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.1rem; }
+    .hero-content p { font-size: 1rem; }
+    .section-subtitle { font-size: 1rem; }
+    .btn { padding: 10px 20px; font-size: 0.9rem; }
+    .hero-form-container { padding: 25px; }
+    .eligibility-form input,
+    .eligibility-form select { padding: 12px 15px; font-size: 0.9rem; }
+    .logo img { max-height: 60px; }
+    .services-list li { font-size: 1rem; }
+    .why-us-text li { font-size: 1rem; }
+}
