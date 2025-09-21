@@ -17,6 +17,13 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            flex-direction: column; /* To stack logo and container */
+        }
+        .logo-container {
+            margin-bottom: 20px;
+        }
+        .logo-container img {
+            height: 100px; /* Adjust as needed */
         }
         .auth-container {
             background-color: #fff;
@@ -58,10 +65,17 @@
             display: block;
             margin-top: 20px;
             color: #1e73be;
+            font-size: 0.95rem;
+        }
+        .home-link {
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
+    <div class="logo-container">
+        <a href="/"><img src="/logo.png" alt="HHC Logo"></a>
+    </div>
     <div class="auth-container">
         <h2>Log In to Your Account</h2>
         <form action="/login" method="POST">
@@ -77,5 +91,6 @@
         </form>
         <a href="/signup" class="auth-link">Don't have an account? Sign up</a>
     </div>
+    <a href="/" class="auth-link home-link">Go back to home page</a>
 </body>
 </html>
