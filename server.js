@@ -40,6 +40,16 @@ app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'signup.html'));
 });
 
+// Serve the success page
+app.get('/success', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'success.html'));
+});
+
+// Serve the dashboard page
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'dashboard.html'));
+});
+
 // Signup Route (handles form submission)
 app.post('/signup', async (req, res) => {
   const { email, password } = req.body;
@@ -47,7 +57,8 @@ app.post('/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ email, password: hashedPassword });
     await newUser.save();
-    res.status(201).send('User created successfully!');
+    // Redirect to the new success page
+    res.redirect('/success');
   } catch (err) {
     if (err.code === 11000) {
       // 11000 is the MongoDB error code for a duplicate key
@@ -69,8 +80,8 @@ app.post('/login', async (req, res) => {
     if (!isMatch) {
       return res.status(400).send('Invalid email or password.');
     }
-    // You would typically redirect to a dashboard here
-    res.status(200).send('Login successful!');
+    // Redirect to the dashboard page upon successful login
+    res.redirect('/dashboard');
   } catch (err) {
     res.status(500).send('Server error: ' + err.message);
   }
