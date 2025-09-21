@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to MongoDB
-mongoose.connect('YOUR_MONGODB_CONNECTION_STRING', {
+mongoose.connect('mongodb+srv://hhc_db_user:Business$9696$@hhc.2amfbrt.mongodb.net/?retryWrites=true&w=majority&appName=HHC', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
