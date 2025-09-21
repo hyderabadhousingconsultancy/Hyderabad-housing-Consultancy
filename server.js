@@ -11,29 +11,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Connect to MongoDB
-mongoose.connect('mongodb+srv://hhc_db_user:Business$9696$@hhc.2amfbrt.mongodb.net/?retryWrites=true&w=majority&appName=HHC', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB connected...'))
-.catch(err => console.error(err));
+// Connect to MongoDB using an environment variable
+const dbURI = process.env.MONGODB_URI;
+mongoose.connect(dbURI)
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-// Define a simple User Schema
+// Define the User Schema
 const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true }
 });
-
 const User = mongoose.model('User', UserSchema);
 
 // Routes
+
 // Serve static files from the 'public' directory
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Serve login and signup pages from the 'views' directory
+// Serve the login and signup pages from the 'views' directory
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
@@ -42,7 +40,7 @@ app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'signup.html'));
 });
 
-// Signup Route
+// Signup Route (handles form submission)
 app.post('/signup', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -51,11 +49,15 @@ app.post('/signup', async (req, res) => {
     await newUser.save();
     res.status(201).send('User created successfully!');
   } catch (err) {
+    if (err.code === 11000) {
+      // 11000 is the MongoDB error code for a duplicate key
+      return res.status(409).send('Email already exists.');
+    }
     res.status(400).send('Error creating user: ' + err.message);
   }
 });
 
-// Login Route
+// Login Route (handles form submission)
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -67,6 +69,7 @@ app.post('/login', async (req, res) => {
     if (!isMatch) {
       return res.status(400).send('Invalid email or password.');
     }
+    // You would typically redirect to a dashboard here
     res.status(200).send('Login successful!');
   } catch (err) {
     res.status(500).send('Server error: ' + err.message);
