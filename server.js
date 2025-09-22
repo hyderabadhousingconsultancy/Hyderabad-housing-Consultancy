@@ -16,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Session setup
 app.use(session({
-    secret: 'your-secret-key', // Replace with a strong, random key
+    secret: process.env.SESSION_SECRET, // Use the environment variable
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Use `true` if you are on HTTPS
@@ -67,7 +67,6 @@ const requireLogin = (req, res, next) => {
 
 // --- Routes ---
 
-// Login route
 app.get('/login', (req, res) => {
     res.render('login');
 });
@@ -87,7 +86,6 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Signup route
 app.get('/signup', (req, res) => {
     res.render('signup');
 });
@@ -98,8 +96,8 @@ app.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ email, password: hashedPassword });
         await newUser.save();
-        req.session.userId = newUser._id;
-        res.redirect('/dashboard');
+        // Redirect to the success page instead of dashboard
+        res.redirect('/success');
     } catch (err) {
         if (err.code === 11000) {
             res.send('Email already registered. <a href="/login">Login here</a>');
@@ -109,7 +107,11 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// Dashboard route (protected)
+// New route for the success page
+app.get('/success', (req, res) => {
+    res.render('success');
+});
+
 app.get('/dashboard', requireLogin, async (req, res) => {
     try {
         const user = await User.findById(req.session.userId);
@@ -123,7 +125,6 @@ app.get('/dashboard', requireLogin, async (req, res) => {
     }
 });
 
-// Logout route
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
@@ -134,7 +135,6 @@ app.get('/logout', (req, res) => {
     });
 });
 
-// Add this route to server.js
 app.get('/terms', (req, res) => {
     res.render('terms');
 });
