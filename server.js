@@ -1,183 +1,204 @@
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const path = require('path');
+const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGODB_URI;
-const SESSION_SECRET = process.env.SESSION_SECRET;
+const PORT = process.env.PORT || 10000;
 
-// Middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// --- Middleware ---
+app.use(express.json({ limit: '50mb' })); // To handle large base64 strings
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Connect to MongoDB
-mongoose.connect(MONGO_URI)
-    .then(() => console.log('MongoDB connected...'))
-    .catch(err => console.error('MongoDB connection error:', err));
-
-// User Schema
-const UserSchema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
-});
-const User = mongoose.model('User', UserSchema);
-
-// Property Schema
-const PropertySchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    type: { type: String, required: true }, // 'plot' or 'flat'
-    name: { type: String, default: 'My New Property' },
-    location: { type: String },
-    additionalDetails: { type: String },
-    address: { type: String },
-    purchaseDate: { type: Date },
-    purchasePrice: { type: Number },
-    sqYards: { type: Number }, // Specific for plots
-    bedrooms: { type: Number }, // Specific for flats
-    photos: { type: [String] }, // Stores Base64 strings
-    documents: { type: [String] }, // Stores Base64 strings
-    suggestions: { type: String },
-    expertAdvice: { type: String }
-}, {
-    timestamps: true
-});
-const Property = mongoose.model('Property', PropertySchema);
-
-// Session Middleware
+// Session setup
 app.use(session({
-    secret: SESSION_SECRET,
+    secret: 'your-secret-key', // Replace with a strong, random key
     resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: MONGO_URI
-    }),
-    cookie: {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 // 1 day
-    }
+    saveUninitialized: true,
+    cookie: { secure: false } // Use `true` if you are on HTTPS
 }));
 
-// Routes
-app.get('/', (req, res) => {
+// --- MongoDB Connection ---
+const mongoURI = 'mongodb+srv://dileep-singh:Dileep123@cluster0.o5h6h1l.mongodb.net/Hyderabad-housing-Consultancy?retryWrites=true&w=majority&appName=Cluster0';
+
+mongoose.connect(mongoURI)
+    .then(() => console.log('MongoDB connected...'))
+    .catch(err => console.log('MongoDB connection error:', err));
+
+// --- Mongoose Schemas and Models ---
+const propertySchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    type: { type: String, required: true }, // 'plot', 'flat', 'other'
+    name: String,
+    location: String,
+    sqYards: Number,
+    bedrooms: Number,
+    additionalDetails: String,
+    address: String,
+    purchaseDate: Date,
+    purchasePrice: Number,
+    photos: [String], // Array of base64 strings
+    documents: [String], // Array of base64 strings
+    suggestions: String,
+    expertAdvice: String,
+});
+
+const userSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    profilePic: String // To store base64 string or URL
+});
+
+const Property = mongoose.model('Property', propertySchema);
+const User = mongoose.model('User', userSchema);
+
+// --- User Authentication Middleware ---
+const requireLogin = (req, res, next) => {
     if (req.session.userId) {
-        res.redirect('/dashboard');
+        next();
     } else {
         res.redirect('/login');
     }
-});
+};
 
+// --- Routes ---
+
+// Login route
 app.get('/login', (req, res) => {
-    res.render('login', { error: null });
+    res.render('login');
 });
 
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (user && await bcrypt.compare(password, user.password)) {
-        req.session.userId = user._id;
-        res.redirect('/dashboard');
-    } else {
-        res.render('login', { error: 'Invalid email or password.' });
+    try {
+        const user = await User.findOne({ email });
+        if (user && await bcrypt.compare(password, user.password)) {
+            req.session.userId = user._id;
+            res.redirect('/dashboard');
+        } else {
+            res.send('Invalid email or password. <a href="/login">Try again</a>');
+        }
+    } catch (err) {
+        res.status(500).send('Server error.');
     }
 });
 
+// Signup route
 app.get('/signup', (req, res) => {
-    res.render('signup', { error: null });
+    res.render('signup');
 });
 
 app.post('/signup', async (req, res) => {
     const { email, password } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ email, password: hashedPassword });
-        await user.save();
-        res.render('success');
+        const newUser = new User({ email, password: hashedPassword });
+        await newUser.save();
+        req.session.userId = newUser._id;
+        res.redirect('/dashboard');
     } catch (err) {
-        res.render('signup', { error: 'An account with this email already exists.' });
+        if (err.code === 11000) {
+            res.send('Email already registered. <a href="/login">Login here</a>');
+        } else {
+            res.status(500).send('Server error.');
+        }
     }
 });
 
-app.get('/dashboard', async (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect('/login');
-    }
+// Dashboard route (protected)
+app.get('/dashboard', requireLogin, async (req, res) => {
     try {
-        const properties = await Property.find({ userId: req.session.userId }).lean();
-        res.render('dashboard', { user: { email: 'user' }, properties: JSON.stringify(properties) });
+        const user = await User.findById(req.session.userId);
+        if (!user) {
+            return res.redirect('/login');
+        }
+        const properties = await Property.find({ userId: req.session.userId });
+        res.render('dashboard', { user, properties: JSON.stringify(properties) });
     } catch (err) {
-        res.status(500).send('Error loading dashboard.');
+        res.status(500).send('Server error.');
     }
 });
 
+// Logout route
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
             return res.redirect('/dashboard');
         }
-        res.clearCookie('connect.sid');
+        res.clearCookie('connect.sid'); // Or your session cookie name
         res.redirect('/login');
     });
 });
 
-// API Routes
-app.post('/api/properties', async (req, res) => {
-    if (!req.session.userId) {
-        return res.status(401).send('Unauthorized');
-    }
+// --- API Endpoints for Properties ---
+app.post('/api/properties', requireLogin, async (req, res) => {
     try {
+        const { type } = req.body;
         const newProperty = new Property({
-            ...req.body,
-            userId: req.session.userId
+            userId: req.session.userId,
+            type: type,
         });
         await newProperty.save();
         res.status(201).json(newProperty);
     } catch (err) {
-        res.status(400).send('Failed to create property.');
+        res.status(500).send('Failed to create new property.');
     }
 });
 
-app.put('/api/properties/:id', async (req, res) => {
-    if (!req.session.userId) {
-        return res.status(401).send('Unauthorized');
-    }
+app.put('/api/properties/:id', requireLogin, async (req, res) => {
     try {
+        const { id } = req.params;
+        const updates = req.body;
         const updatedProperty = await Property.findOneAndUpdate(
-            { _id: req.params.id, userId: req.session.userId },
-            req.body,
+            { _id: id, userId: req.session.userId },
+            { $set: updates },
             { new: true }
         );
         if (!updatedProperty) {
-            return res.status(404).send('Property not found.');
+            return res.status(404).send('Property not found or you do not have permission to edit it.');
         }
-        res.status(200).json(updatedProperty);
+        res.json(updatedProperty);
     } catch (err) {
-        res.status(400).send('Failed to update property.');
+        res.status(500).send('Failed to update property.');
     }
 });
 
-app.delete('/api/properties/:id', async (req, res) => {
-    if (!req.session.userId) {
-        return res.status(401).send('Unauthorized');
-    }
+app.delete('/api/properties/:id', requireLogin, async (req, res) => {
     try {
-        const deletedProperty = await Property.findOneAndDelete({ _id: req.params.id, userId: req.session.userId });
-        if (!deletedProperty) {
-            return res.status(404).send('Property not found.');
+        const { id } = req.params;
+        const result = await Property.findOneAndDelete({ _id: id, userId: req.session.userId });
+        if (!result) {
+            return res.status(404).send('Property not found or you do not have permission to delete it.');
         }
-        res.status(200).send('Property deleted.');
+        res.status(200).send('Property deleted successfully.');
     } catch (err) {
         res.status(500).send('Failed to delete property.');
     }
 });
 
+// --- API Endpoint for Profile Picture ---
+app.put('/api/profile-pic', requireLogin, async (req, res) => {
+    try {
+        const { profilePic } = req.body;
+        const updatedUser = await User.findByIdAndUpdate(
+            req.session.userId,
+            { profilePic: profilePic },
+            { new: true }
+        );
+        if (!updatedUser) {
+            return res.status(404).send('User not found.');
+        }
+        res.status(200).json({ message: 'Profile picture updated successfully.' });
+    } catch (err) {
+        res.status(500).send('Failed to update profile picture.');
+    }
+});
+
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
