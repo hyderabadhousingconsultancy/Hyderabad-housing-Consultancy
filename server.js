@@ -90,13 +90,23 @@ app.get('/signup', (req, res) => {
     res.render('signup');
 });
 
+// confirm password and 6 characters changes made here 
+
 app.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, confirmPassword } = req.body;
+
+    // Server-side validation
+    if (password.length < 6) {
+        return res.status(400).send('Password must be at least 6 characters long. <a href="/signup">Go back</a>');
+    }
+    if (password !== confirmPassword) {
+        return res.status(400).send('Passwords do not match. <a href="/signup">Go back</a>');
+    }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ email, password: hashedPassword });
         await newUser.save();
-        // Redirect to the success page instead of dashboard
         res.redirect('/success');
     } catch (err) {
         if (err.code === 11000) {
