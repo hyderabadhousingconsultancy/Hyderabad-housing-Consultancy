@@ -30,11 +30,12 @@
             margin-bottom: 30px;
         }
         
+        /* Updated CSS for the logo image */
         .logo {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #6c5ce7;
-            text-transform: uppercase;
+            max-width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
         h2 {
@@ -130,7 +131,7 @@
 
     <div class="signup-container">
         <div class="logo-container">
-            <h1 class="logo">My Property</h1>
+            <img src="/logo.png" alt="My Property Logo" class="logo">
         </div>
         <h2>Create an Account</h2>
         <form action="/signup" method="POST">
