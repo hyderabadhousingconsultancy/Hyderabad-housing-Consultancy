@@ -23,7 +23,7 @@ app.use(session({
 }));
 
 // --- MongoDB Connection ---
-const mongoURI = 'mongodb+srv://dileep-singh:Dileep123@cluster0.o5h6h1l.mongodb.net/Hyderabad-housing-Consultancy?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI = process.env.MONGODB_URI;
 
 mongoose.connect(mongoURI)
     .then(() => console.log('MongoDB connected...'))
