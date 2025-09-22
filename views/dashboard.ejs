@@ -96,19 +96,11 @@
         
         /* New section for profile picture save */
         .profile-pic-fields {
-            display: none;
             margin-top: 10px;
+            display: none; /* Initially hidden */
         }
         .profile-pic-fields input {
             display: none;
-        }
-        .profile-pic-fields label {
-            background-color: #f0f0f0;
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-size: 14px;
         }
         .profile-pic-fields button {
             background-color: #2ecc71;
@@ -119,6 +111,9 @@
             cursor: pointer;
             font-size: 14px;
             margin-left: 10px;
+        }
+        .profile-pic-fields.visible {
+            display: block;
         }
 
         .nav-bar {
@@ -352,30 +347,6 @@
 
         .file-upload-container {
             margin-top: 20px;
-            display: none; /* Hiding the upload section initially */
-        }
-
-        .file-upload-container.editable {
-            display: block;
-        }
-
-        .file-upload-container p {
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        .file-upload-container .upload-label {
-            display: inline-block;
-            background-color: #f0f0f0;
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            padding: 15px 25px;
-            cursor: pointer;
-            transition: border-color 0.3s, background-color 0.3s;
-        }
-
-        .file-upload-container .upload-label:hover {
-            background-color: #e9e9e9;
-            border-color: #888;
         }
 
         .uploaded-photos,
@@ -417,10 +388,36 @@
             font-size: 14px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             transition: background-color 0.3s;
+            display: none;
+        }
+
+        .delete-file-btn.editable {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .delete-file-btn:hover {
             background-color: #c0392b;
+        }
+
+        .upload-plus-btn {
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #6c5ce7;
+            display: none; /* Initially hidden */
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+        }
+
+        .upload-plus-btn.visible {
+            display: flex;
         }
     </style>
 </head>
@@ -429,8 +426,9 @@
     <div class="dashboard-container">
         <div class="profile-section">
             <div class="profile-pic-container">
-                <img id="profile-pic" src="https://via.placeholder.com/90" alt="Profile Picture" class="profile-pic">
+                <img id="profile-pic" src="<%= user.profilePic || 'https://via.placeholder.com/90' %>" alt="Profile Picture" class="profile-pic">
                 <button class="profile-pic-edit-btn" title="Edit Profile Picture">✏️</button>
+                <input type="file" id="profile-photo-upload" accept="image/jpeg, image/png" style="display: none;">
             </div>
             <div class="profile-info">
                 <h1>Hey <%= user.email.split('@')[0] %></h1>
@@ -439,11 +437,7 @@
             <button class="logout-btn" onclick="window.location.href='/logout'">Logout</button>
         </div>
         
-        <div class="profile-pic-fields">
-            <label for="profile-photo-upload">
-                <span>Select a new photo</span>
-                <input type="file" id="profile-photo-upload" accept="image/jpeg, image/png" style="display: none;">
-            </label>
+        <div class="profile-pic-fields" id="profile-pic-fields">
             <button id="save-profile-pic-btn">Save</button>
         </div>
 
@@ -532,23 +526,19 @@
                     </ul>
 
                     <div class="property-details-content sub-active" data-sub-content="gallery">
-                        <div class="file-upload-container">
-                             <p>Add Property Photos (JPEG, PNG):</p>
-                             <label for="property-photo-upload-${property._id}" class="upload-label">
-                                 <input type="file" id="property-photo-upload-${property._id}" class="property-photo-upload" accept="image/jpeg, image/png" multiple style="display: none;">
-                                 <span>Click to Add Photos</span>
-                             </label>
-                             <div class="uploaded-photos"></div>
+                        <div class="uploaded-photos">
+                            <label class="upload-plus-btn">
+                                +
+                                <input type="file" class="property-photo-upload" accept="image/jpeg, image/png" multiple style="display: none;">
+                            </label>
                         </div>
                     </div>
                     <div class="property-details-content" data-sub-content="legal-details">
-                        <div class="file-upload-container">
-                            <p>Add Legal Documents (PDF, DOCX):</p>
-                             <label for="legal-doc-upload-${property._id}" class="upload-label">
-                                <input type="file" id="legal-doc-upload-${property._id}" class="legal-doc-upload" accept=".pdf, .docx" multiple style="display: none;">
-                                <span>Click to Add Documents</span>
+                        <div class="uploaded-docs">
+                             <label class="upload-plus-btn">
+                                +
+                                <input type="file" class="legal-doc-upload" accept=".pdf, .docx" multiple style="display: none;">
                             </label>
-                            <div class="uploaded-docs"></div>
                         </div>
                     </div>
                     <div class="property-details-content" data-sub-content="suggested-services">
@@ -609,23 +599,19 @@
                     </ul>
 
                     <div class="property-details-content sub-active" data-sub-content="gallery">
-                        <div class="file-upload-container">
-                             <p>Add Property Photos (JPEG, PNG):</p>
-                             <label for="property-photo-upload-${property._id}" class="upload-label">
-                                 <input type="file" id="property-photo-upload-${property._id}" class="property-photo-upload" accept="image/jpeg, image/png" multiple style="display: none;">
-                                 <span>Click to Add Photos</span>
-                             </label>
-                             <div class="uploaded-photos"></div>
+                        <div class="uploaded-photos">
+                            <label class="upload-plus-btn">
+                                +
+                                <input type="file" class="property-photo-upload" accept="image/jpeg, image/png" multiple style="display: none;">
+                            </label>
                         </div>
                     </div>
                     <div class="property-details-content" data-sub-content="legal-details">
-                        <div class="file-upload-container">
-                            <p>Add Legal Documents (PDF, DOCX):</p>
-                             <label for="legal-doc-upload-${property._id}" class="upload-label">
-                                <input type="file" id="legal-doc-upload-${property._id}" class="legal-doc-upload" accept=".pdf, .docx" multiple style="display: none;">
-                                <span>Click to Add Documents</span>
+                        <div class="uploaded-docs">
+                             <label class="upload-plus-btn">
+                                +
+                                <input type="file" class="legal-doc-upload" accept=".pdf, .docx" multiple style="display: none;">
                             </label>
-                            <div class="uploaded-docs"></div>
                         </div>
                     </div>
                     <div class="property-details-content" data-sub-content="suggested-services">
@@ -642,13 +628,13 @@
 
             // --- Profile picture editing logic ---
             const profilePicEditBtn = document.querySelector('.profile-pic-edit-btn');
-            const profilePicFields = document.querySelector('.profile-pic-fields');
             const profilePhotoUpload = document.getElementById('profile-photo-upload');
             const saveProfilePicBtn = document.getElementById('save-profile-pic-btn');
             const profilePic = document.getElementById('profile-pic');
-            
+            const profilePicFields = document.getElementById('profile-pic-fields');
+
             profilePicEditBtn.addEventListener('click', () => {
-                profilePicFields.style.display = 'block';
+                profilePhotoUpload.click();
             });
 
             profilePhotoUpload.addEventListener('change', (e) => {
@@ -657,6 +643,7 @@
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         profilePic.src = e.target.result;
+                        profilePicFields.classList.add('visible');
                     };
                     reader.readAsDataURL(file);
                 }
@@ -664,26 +651,38 @@
 
             saveProfilePicBtn.addEventListener('click', async () => {
                 const newPhotoUrl = profilePic.src;
-                // You will need to create a new API route in server.js to handle this save.
-                // For now, this is a placeholder to show the front-end logic.
-                alert('Profile picture saved! (Note: backend for this feature is not yet implemented.)');
-                profilePicFields.style.display = 'none';
+                try {
+                    const response = await fetch('/api/profile-pic', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ profilePic: newPhotoUrl })
+                    });
+                    if (response.ok) {
+                        alert('Profile picture saved successfully! 🎉');
+                        profilePicFields.classList.remove('visible');
+                    } else {
+                        alert('Failed to save profile picture.');
+                    }
+                } catch (error) {
+                    console.error('Error saving profile picture:', error);
+                    alert('Server error. Failed to save profile picture.');
+                }
             });
             
             // --- Core function to enable/disable input fields for editing ---
             const toggleEditMode = (cardElement, enable) => {
                 const inputs = cardElement.querySelectorAll('input:not([type="file"]), textarea');
                 const saveButton = cardElement.querySelector('.save-btn');
-                const fileUploadContainers = cardElement.querySelectorAll('.file-upload-container');
+                const uploadPlusBtns = cardElement.querySelectorAll('.upload-plus-btn');
+                const deleteFileBtns = cardElement.querySelectorAll('.delete-file-btn');
 
                 inputs.forEach(input => {
                     input.disabled = !enable;
                     input.classList.toggle('editable', enable);
                 });
                 
-                fileUploadContainers.forEach(container => {
-                    container.classList.toggle('editable', enable);
-                });
+                uploadPlusBtns.forEach(btn => btn.classList.toggle('visible', enable));
+                deleteFileBtns.forEach(btn => btn.classList.toggle('editable', enable));
                 
                 saveButton.classList.toggle('active', enable);
             };
@@ -707,7 +706,7 @@
                     const updates = {};
                     
                     // Collect all input values
-                    const inputs = cardElement.querySelectorAll('input, textarea');
+                    const inputs = cardElement.querySelectorAll('input:not([type="file"]), textarea');
                     inputs.forEach(input => {
                         let key = input.className.split('-')[1];
                         if (key === 'sqyards') key = 'sqYards';
