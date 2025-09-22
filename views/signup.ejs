@@ -6,102 +6,152 @@
     <title>Sign Up</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            position: relative;
-        }
-        .home-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            text-decoration: none;
-            color: #555;
-            font-size: 16px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        .home-link::before {
-            content: '←';
-            font-size: 20px;
-            margin-right: 5px;
-        }
-        .signup-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            text-align: center;
-        }
-        .signup-container h2 {
-            margin-bottom: 20px;
             color: #333;
         }
-        .signup-container input {
+
+        .signup-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
+            max-width: 400px;
+            text-align: center;
         }
-        .signup-container button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+        
+        .logo-container {
+            margin-bottom: 30px;
         }
-        .signup-container button:hover {
-            background-color: #218838;
+        
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #6c5ce7;
+            text-transform: uppercase;
         }
-        .error-message {
-            color: red;
-            margin-bottom: 10px;
+
+        h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
             text-align: left;
         }
-        .login-link {
-            margin-top: 15px;
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .input-group input {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
             font-size: 14px;
+            color: #555;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .checkbox-group a {
+            color: #6c5ce7;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+        
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #5b4acb;
+        }
+
+        .login-link {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #6c5ce7;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <a href="/" class="home-link">Go to Home Page</a>
+
     <div class="signup-container">
-        <h2>Sign Up</h2>
-        <% if (error) { %>
-            <div class="error-message"><%= error %></div>
-        <% } %>
-        <form action="/signup" method="POST" onsubmit="return validateForm()">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" id="password" placeholder="Password" required>
-            <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm Password" required>
+        <div class="logo-container">
+            <h1 class="logo">My Property</h1>
+        </div>
+        <h2>Create an Account</h2>
+        <form action="/signup" method="POST">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I accept the <a href="#" target="_blank">Terms & Conditions</a></label>
+            </div>
             <button type="submit">Sign Up</button>
         </form>
         <div class="login-link">
-            Already have an account? <a href="/login">Login here</a>
+            Already have an account? <a href="/login">Log in here</a>
         </div>
     </div>
-    <script>
-        function validateForm() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            if (password !== confirmPassword) {
-                alert('Passwords do not match.');
-                return false;
-            }
-            return true;
-        }
-    </script>
+
 </body>
 </html>
