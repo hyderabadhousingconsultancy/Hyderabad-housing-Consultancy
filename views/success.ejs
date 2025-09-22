@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Success - HHC</title>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <style>
         body {
+            font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
             display: flex;
             justify-content: center;
@@ -24,7 +21,8 @@
             margin-bottom: 20px;
         }
         .logo-container img {
-            height: 100px;
+            max-width: 150px;
+            height: auto;
         }
         .success-container {
             background-color: #fff;
@@ -51,6 +49,17 @@
         .btn {
             padding: 12px 25px;
             font-size: 1rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #6c5ce7;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: #5b4acb;
         }
         .btn-secondary {
             background-color: #6c757d;
