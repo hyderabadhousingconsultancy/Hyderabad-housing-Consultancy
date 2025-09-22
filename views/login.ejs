@@ -86,6 +86,12 @@
             border-color: #6c5ce7;
         }
 
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
         .checkbox-group {
             display: flex;
             align-items: center;
@@ -150,6 +156,11 @@
             <img src="/logo.png" alt="My Property Logo" class="logo">
         </div>
         <h2>Welcome Back</h2>
+        <% if (typeof error !== 'undefined') { %>
+            <div class="error-message">
+                <%= error %>
+            </div>
+        <% } %>
         <form action="/login" method="POST">
             <div class="input-group">
                 <label for="email">Email</label>
