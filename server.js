@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 
 // --- Middleware ---
-app.use(express.json({ limit: '50mb' })); // To handle large base64 strings
+app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
@@ -16,10 +16,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Session setup
 app.use(session({
-    secret: process.env.SESSION_SECRET, // Use the environment variable
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Use `true` if you are on HTTPS
+    cookie: { secure: false }
 }));
 
 // --- MongoDB Connection ---
@@ -32,7 +32,7 @@ mongoose.connect(mongoURI)
 // --- Mongoose Schemas and Models ---
 const propertySchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    type: { type: String, required: true }, // 'plot', 'flat', 'other'
+    type: { type: String, required: true },
     name: String,
     location: String,
     sqYards: Number,
@@ -41,8 +41,8 @@ const propertySchema = new mongoose.Schema({
     address: String,
     purchaseDate: Date,
     purchasePrice: Number,
-    photos: [String], // Array of base64 strings
-    documents: [String], // Array of base64 strings
+    photos: [String],
+    documents: [String],
     suggestions: String,
     expertAdvice: String,
 });
@@ -50,7 +50,7 @@ const propertySchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    profilePic: String // To store base64 string or URL
+    profilePic: String
 });
 
 const Property = mongoose.model('Property', propertySchema);
@@ -68,7 +68,7 @@ const requireLogin = (req, res, next) => {
 // --- Routes ---
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', { error: req.query.error });
 });
 
 app.post('/login', async (req, res) => {
@@ -79,7 +79,7 @@ app.post('/login', async (req, res) => {
             req.session.userId = user._id;
             res.redirect('/dashboard');
         } else {
-            res.send('Invalid email or password. <a href="/login">Try again</a>');
+            res.render('login', { error: 'Invalid email or password.' });
         }
     } catch (err) {
         res.status(500).send('Server error.');
@@ -90,12 +90,9 @@ app.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-// confirm password and 6 characters changes made here 
-
 app.post('/signup', async (req, res) => {
     const { email, password, confirmPassword } = req.body;
 
-    // Server-side validation
     if (password.length < 6) {
         return res.status(400).send('Password must be at least 6 characters long. <a href="/signup">Go back</a>');
     }
@@ -117,7 +114,6 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// New route for the success page
 app.get('/success', (req, res) => {
     res.render('success');
 });
@@ -140,7 +136,7 @@ app.get('/logout', (req, res) => {
         if (err) {
             return res.redirect('/dashboard');
         }
-        res.clearCookie('connect.sid'); // Or your session cookie name
+        res.clearCookie('connect.sid');
         res.redirect('/login');
     });
 });
