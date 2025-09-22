@@ -134,6 +134,11 @@ app.get('/logout', (req, res) => {
     });
 });
 
+// Add this route to server.js
+app.get('/terms', (req, res) => {
+    res.render('terms');
+});
+
 // --- API Endpoints for Properties ---
 app.post('/api/properties', requireLogin, async (req, res) => {
     try {
